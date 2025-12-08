@@ -1,0 +1,11 @@
+// 判断是否为回文数
+//逻辑在于反转后相等
+int is_palindrome(int x) {
+    int temp = x;
+    int reversed = 0;
+    while (temp > 0) {
+        reversed = reversed * 10 + temp % 10; // 取最后一位并累加
+        temp /= 10; // 去掉最后一位
+    }
+    return reversed == x;
+}
