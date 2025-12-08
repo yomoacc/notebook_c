@@ -1,0 +1,8 @@
+void f(double current, int i, int n) {
+    if (i > n) {
+        printf("%.2f", current);
+        return;
+    }
+    double new = sqrt(current + i);
+    f(new, i + 1, n);
+}
