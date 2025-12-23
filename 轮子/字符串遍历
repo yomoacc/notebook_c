@@ -1,0 +1,24 @@
+#include <stdio.h>
+struct Test {
+    int a;
+    char b[6]; // 存储"Hello"，含'\0'共6字节
+};
+
+int main() {
+    struct Test t = {100, "Hello"}; // 初始化结构体
+    char *str = t.b; // 指向字符串首地址（等价于t.b）
+    
+    // 第一步：遍历字符串，逐个输出字符+空格（最后一个字符不加）
+    while (*str != '\0') { // 终止条件：遇到字符串结束符'\0'
+        printf("%c", *str); // 输出当前字符
+        
+        // 关键：判断下一个字符是否是'\0'，不是则加空格
+        if (*(str + 1) != '\0') {
+            printf(" ");
+        }
+        
+        str++; // 指针后移，指向下一个字符
+    }
+    
+    return 0;
+}
