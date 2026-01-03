@@ -35,3 +35,21 @@ int n;
     }
 }   //倒序输出字符
 
+
+// 递归判断是否是回文数
+int isPalindrome(int n, int len) {
+    if (n < 0) return 0; // 负数不是回文数
+
+    if (len <= 1) return 1; // 只有一位，是回文
+
+    // 获取第一位和最后一位
+    int first = n / (int)pow(10, len - 1);                   
+    int last = n % 10;
+
+    if (first != last) return 0; // 首尾不同，不是回文
+
+    // 去掉首尾，继续递归
+    int remaining = (n % (int)pow(10, len - 1)) / 10;        //key
+    return isPalindrome(remaining, len - 2);
+}
+
