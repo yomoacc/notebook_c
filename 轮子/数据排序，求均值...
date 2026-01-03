@@ -1,0 +1,95 @@
+#include <stdio.h>
+
+#define MAX_N 100 // 最大可输入数字个数
+
+typedef struct {
+    int number;   // 数字
+    int frequency;// 出现次数
+} NumberCount;
+
+// 冒泡排序：按数字大小升序排列
+void sortNumbers(NumberCount arr[], int n) {
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (arr[j].number > arr[j + 1].number) {
+                // 交换
+                NumberCount temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int main() {
+    int num[MAX_N];
+    NumberCount counts[MAX_N];
+    int uniqueCount = 0; // 不同数字的个数
+    int totalDuplicates = 0;
+    int n;
+
+    printf("请输入数字个数：");
+    scanf("%d", &n);
+    if (n <= 0 || n > MAX_N) {
+        printf("输入个数无效！\n");
+        return 1;
+    }
+
+    printf("请输入 %d 个整数：", n);
+    for (int i = 0; i < n; i++) {
+        scanf("%d", &num[i]);
+
+        // 查重并计数
+        int found = 0;
+        for (int j = 0; j < uniqueCount; j++) {
+            if (counts[j].number == num[i]) {
+                counts[j].frequency++;              // 1 2 2 3 3 3 4 4 4 4
+                found = 1;
+                break;
+            }
+        }
+        if (!found) {
+            counts[uniqueCount].number = num[i];
+            counts[uniqueCount].frequency = 1;
+            uniqueCount++;
+        }
+    }
+
+    // 排序
+    sortNumbers(counts, uniqueCount);
+
+    // 输出重复统计
+    printf("\n重复的数字及次数：\n");
+    for (int i = 0; i < uniqueCount; i++) {
+        if (counts[i].frequency > 1) {
+            printf("数字 %d 重复了 %d 次\n", counts[i].number, counts[i].frequency - 1);
+            totalDuplicates += counts[i].frequency - 1;
+        }
+    }
+    printf("总重复次数：%d\n", totalDuplicates);
+
+    // 输出去重列表
+    printf("\n去重后的数字列表（升序）：");
+    for (int i = 0; i < uniqueCount; i++) {
+        printf("%d ", counts[i].number);
+    }
+    printf("\n");
+
+    // 统计总和、平均值、最大值、最小值
+    int sum = 0;
+    int maxNum = counts[0].number;
+    int minNum = counts[0].number;
+    for (int i = 0; i < uniqueCount; i++) {
+        sum += counts[i].number * counts[i].frequency; // 总和
+        if (counts[i].number > maxNum) maxNum = counts[i].number;
+        if (counts[i].number < minNum) minNum = counts[i].number;
+    }
+    double average = (double)sum / n;
+
+    printf("\n总和：%d\n", sum);
+    printf("平均值：%.2f\n", average);
+    printf("最大值：%d\n", maxNum);
+    printf("最小值：%d\n", minNum);
+
+    return 0;
+}
