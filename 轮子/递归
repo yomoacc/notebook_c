@@ -21,3 +21,17 @@ int calculate_term(int count, int base) {
     }
 }
 
+void palin(n)
+int n;
+{
+    char next;
+    if(n<=1) {     //关键的
+        next=getchar();
+        putchar(next);
+    } else {
+        next=getchar();
+        palin(n-1); //关键的
+        putchar(next);
+    }
+}   //倒序输出字符
+
