@@ -6,3 +6,8 @@ void f(double current, int i, int n) {
     double new = sqrt(current + i);
     f(new, i + 1, n);
 }
+
+int fib(int i){
+    if(i=0) return 0;
+    if(i=1) return 1;} //or i=1,i=2...
+
