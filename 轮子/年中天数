@@ -1,0 +1,9 @@
+int isleapyear(int year)
+{
+    if(year%4==0||year%100==0||year%400==0)
+        return 1;
+    else return 0;
+}
+year/4 year/100 year/400
+int onemonth[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+if(isleapyear(year)=1) onemonth[1]=29;
