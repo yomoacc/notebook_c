@@ -1,9 +1,14 @@
 
 int gcd(int a, int b) {
+    
     while (b != 0) {
         int temp = a % b;
+        
         a = b;
         b = temp;
     }
     return a; 
 }
+n=a*b;//初始
+max=n/a;//公约数
+
