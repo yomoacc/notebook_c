@@ -30,3 +30,52 @@ int main() {
     printf("%lld\n", quick_pow(a, b));
     return 0;
 }
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int main() {
+    int n, pos = 0;  // pos：当前报数的位置索引
+    int *num;
+
+    printf("请输入这一圈人的数量:\n");
+    scanf("%d", &n);
+
+    // 动态分配数组（支持任意人数）
+    num = (int *)malloc(n * sizeof(int));
+    if (num == NULL) {
+        printf("内存分配失败！\n");
+        return 1;
+    }
+
+    // 1. 初始化编号（1~n）
+    for (int i = 0; i < n; i++) {
+        num[i] = i + 1;
+    }
+
+    // 2. 核心逻辑：for循环控制出列n-1人（直观体现“要淘汰多少人”）
+    for (int out = 0; out < n - 1; out++) {  // out：已出列人数
+        // 找到下一个报数为3的人（跳过已出列的0）
+        for (int count = 0; count < 3; pos = (pos + 1) % n) {
+            if (num[pos] != 0) {  // 未出列的人才报数
+                count++;  // 报数+1
+            }
+        }
+        // 此时pos指向的人报数为3，标记为出列（置0）
+        num[pos] = 0;
+    }
+
+    // 3. 输出最后留下的人
+    printf("现在剩下的人是:");
+    for (int i = 0; i < n; i++) {
+        if (num[i] != 0) {
+            printf("%2d号\n", num[i]);
+        }
+    }
+
+    free(num);
+    return 0;
+}
