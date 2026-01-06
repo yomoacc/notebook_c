@@ -79,3 +79,109 @@ int main() {
     free(num);
     return 0;
 }
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdbool.h>
+
+// 判断一个数是否是质数
+bool isPrime(long long num) {
+    if (num <= 1) return false;
+    if (num == 2) return true;
+    if (num % 2 == 0) return false;
+    for (long long i = 3; i * i <= num; i += 2) {
+        if (num % i == 0) return false;
+    }
+    return true;
+}
+
+// 质因数分解，并返回质因数及其指数
+void primeFactorization(long long n, long long factors[], int exponents[], int *count) {
+    *count = 0; // 质因数的个数
+    long long temp = n;
+
+    // 处理 2 的情况
+    if (temp % 2 == 0) {
+        factors[*count] = 2;
+        exponents[*count] = 0;
+        while (temp % 2 == 0) {
+            exponents[*count]++;
+            temp /= 2;
+        }
+        (*count)++;
+    }
+
+    // 处理奇数因子
+    for (long long i = 3; i * i <= temp; i += 2) {
+        if (temp % i == 0) {
+            factors[*count] = i;
+            exponents[*count] = 0;
+            while (temp % i == 0) {
+                exponents[*count]++;
+                temp /= i;
+            }
+            (*count)++;
+        }
+    }
+
+    // 如果最后剩下的数是一个质数
+    if (temp > 1) {
+        factors[*count] = temp;
+        exponents[*count] = 1;
+        (*count)++;
+    }
+}
+
+// 验证分解结果的唯一性
+bool verifyUniqueness(long long n, long long factors[], int exponents[], int count) {
+    long long product = 1;
+    for (int i = 0; i < count; i++) {
+        for (int j = 0; j < exponents[i]; j++) {
+            product *= factors[i];
+        }
+    }
+    return product == n;
+}
+
+int main() {
+    long long num;
+    printf("请输入一个大于 1 的整数：");
+    scanf("%lld", &num);
+
+    if (num <= 1) {
+        printf("输入错误！请输入大于 1 的整数。\n");
+        return 1;
+    }
+
+    long long factors[20];   // 存储质因数
+    int exponents[20];       // 存储对应指数
+    int count;               // 质因数的个数
+
+    // 分解质因数
+    primeFactorization(num, factors, exponents, &count);
+
+    // 输出分解结果
+    printf("%lld 的质因数分解为：\n", num);
+    for (int i = 0; i < count; i++) {
+        printf("%lld^%d", factors[i], exponents[i]);
+        if (i < count - 1) {
+            printf(" × ");
+        }
+    }
+    printf("\n");
+
+    // 验证唯一性
+    if (verifyUniqueness(num, factors, exponents, count)) {
+        printf("验证通过：分解结果的乘积等于原数，满足唯一质因数分解定理。\n");
+    } else {
+        printf("验证失败：分解结果的乘积不等于原数！\n");
+    }
+
+    return 0;
+}
+
+
